@@ -8,7 +8,7 @@
 
 namespace UptimeRobot;
 
-class UptimeRobot {
+class Monitor {
 
     private $apik;
     private $format;
@@ -20,7 +20,7 @@ class UptimeRobot {
         $this->apik = $apikey;
     }
 
-    private function request($query) {
+    public function request($query) {
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_URL => "https://api.uptimerobot.com/v2/$query",
@@ -45,13 +45,10 @@ class UptimeRobot {
         if ($err) {
             echo "cURL Error #:" . $err;
         } else {
-            return $response;
+            echo $response;
         }
     }
     public function setResponseFormat($newFormat) {
         $this->format = $newFormat;
-    }
-    public function getAccountDetails() {
-        return $this->request("getAccountDetails");
     }
 }
