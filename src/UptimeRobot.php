@@ -100,11 +100,18 @@ class UptimeRobot {
      * getMonitors(["api_key" => "asd"]);
      */
     public function getMonitors($parameter) {
-        $monitorsarray =  json_decode($this->request("getMonitors", $parameter));
-        $monitors = [];
-        foreach ($monitorsarray->monitors as $monitor) {
-            $monitors[] = new Monitor($monitor);
+        $request = $this->request("getMonitors", $parameter);
+        if ($this->format == UptimeRobot::JSON) {
+            $monitorsarray = json_decode($request);
+            $monitors = [];
+            foreach ($monitorsarray->monitors as $monitor) {
+                $monitors[] = new Monitor($monitor);
+            }
+            return $monitors;
         }
-        return $monitors;
+        if ($this->format == UptimeRobot::XML) {
+            $xml = simplexml_load_string($request);
+            echo ($xml->monitor[1]->friendly_name);
+        }
     }
 }
