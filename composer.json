@@ -9,5 +9,10 @@
             "email": "bennet@intranetproject.net"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "UptimeRobot\\": "src/"
+        }
+    },
     "require": {}
 }

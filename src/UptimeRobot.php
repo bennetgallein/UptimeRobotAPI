@@ -16,12 +16,14 @@ class UptimeRobot {
     const JSON = 'json';
     const XML = 'xml';
 
+    private $parameter;
+
     public function __construct($apikey) {
         $this->apik = $apikey;
     }
 
-    private function request($query, $parameter) {
-        if (!(isset($parameter))) {
+    private function request($query) {
+        if (!(isset($this->parameter))) {
             $parameter = array("api_key" => $this->apik, "format" => $this->format);
         }
         $curl = curl_init();
@@ -63,6 +65,10 @@ class UptimeRobot {
         $this->format = $newFormat;
     }
 
+    public function setParameter($array) {
+        $this->parameter = $array;
+    }
+
     public function getAccountDetails() {
         return $this->request("getAccountDetails");
     }
@@ -99,7 +105,7 @@ class UptimeRobot {
      *
      * getMonitors(["api_key" => "asd"]);
      */
-    public function getMonitors($parameter) {
+    public function getMonitors($parameter = array()) {
         $request = $this->request("getMonitors", $parameter);
         if ($this->format == UptimeRobot::JSON) {
             $monitorsarray = json_decode($request);
